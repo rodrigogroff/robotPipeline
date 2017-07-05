@@ -14,14 +14,14 @@ namespace RobotPipeline
 
             driver.Navigate().GoToUrl("http://10.10.1.22:8091/");
             IWebElement passwordTextBox = driver.FindElement(By.Name("username"));
-            /*passwordTextBox.Clear();
+            passwordTextBox.Clear();
             passwordTextBox.SendKeys("sue.helen");
 
             driver.FindElement(By.Id("btn-login")).Click();
 
             var Bairro = new Bairro();
 
-            /*if (!Bairro.teste1(driver))
+            if (!Bairro.teste1(driver))
             {
                 Console.WriteLine("ERRO");
                 return;
@@ -31,7 +31,7 @@ namespace RobotPipeline
             {
                 Console.WriteLine("ERRO");
                 return;
-            }*/
+            }
 
         }
     }
