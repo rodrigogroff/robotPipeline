@@ -11,13 +11,10 @@ namespace RobotPipeline.Cadastros
     {
         public bool RetornaSelect(string itemSelecionado, string itemId, IWebDriver driver)
         {
-
             IWebElement selectUF = driver.FindElement(By.Id(itemId));
             selectUF.Click();
-
             var item = selectUF.FindElement(By.XPath(String.Format("//li[contains(translate(., '{0}', '{1}'), '{1}')]", itemSelecionado.ToUpper(), itemSelecionado.ToLower())));
             item.Click();
-
             return true;
         }
     }

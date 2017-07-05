@@ -24,20 +24,33 @@ namespace RobotPipeline
 
             var Bairro = new Bairro();
 
-            /*if (!Bairro.teste1(driver)){
+            /*if (!Bairro.inserir(driver)){
                 Console.WriteLine("Falhou Bairro - Inserir");
                 return;
+            }
+            else{
+                Console.WriteLine("Bairro - Inserir : Ok");
+                return;
+
             }*/
 
-            if (!Bairro.pesquisar(driver)) {
+            if (!Bairro.pesquisar(driver)){
                 Console.WriteLine("Falhou Bairro - Pesquisar");
                 return;
             }
+            else {
+                Console.WriteLine("Bairro - Pesquisar : Ok");
+                return;
+            }
 
-            if (!Bairro.editar(driver)) {
+            if (!Bairro.editar(driver)){
                 Console.WriteLine("Falhou Bairro - Editar");
                 return;
-            } //rodrigo 
+            }
+            else {
+                Console.WriteLine("Bairro - Editar : Ok");
+                return;
+            }
 
         }
     }
