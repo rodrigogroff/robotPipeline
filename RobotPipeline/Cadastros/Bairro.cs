@@ -39,7 +39,6 @@ namespace RobotPipeline.Cadastros
                 if (!RetornaSelect(item, itemId, driver))
                 {
                     Console.WriteLine("Erro select estado");
-                    return false;
                 }
 
                 item = "Porto Alegre";
@@ -48,7 +47,6 @@ namespace RobotPipeline.Cadastros
                 if (!RetornaSelect(item, itemId, driver))
                 {
                     Console.WriteLine("Erro select cidade");
-                    return false;
                 }
 
                 IWebElement iddneTextBox = driver.FindElement(By.Id("iddne"));
@@ -68,7 +66,6 @@ namespace RobotPipeline.Cadastros
         public bool pesquisar()
         {
             driver.FindElement(By.CssSelector("div.dropdown span")).Click();
-            Thread.Sleep(1000);
             driver.FindElement(By.PartialLinkText("Bairro")).Click();
             Thread.Sleep(1000);
             IWebElement pesquisarTextBox = driver.FindElement(By.Id("filtroBasico"));
