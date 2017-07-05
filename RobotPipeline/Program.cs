@@ -15,7 +15,7 @@ namespace RobotPipeline
 
             driver.Navigate().GoToUrl("http://10.10.1.22:8091/");
 
-            Thread.Sleep(1000);
+            Thread.Sleep(1000); 
             IWebElement passwordTextBox = driver.FindElement(By.Name("username"));
             passwordTextBox.Clear();
             passwordTextBox.SendKeys("sue.helen");
