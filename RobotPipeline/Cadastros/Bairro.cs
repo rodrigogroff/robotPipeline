@@ -1,53 +1,72 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 using System.Threading;
+using RobotPipeline.Infra;
 
 namespace RobotPipeline.Cadastros
 {
     public class Bairro : Base
     {
-        public bool inserir(IWebDriver driver) {
-            String item, itemId;
-            driver.FindElement(By.CssSelector("div.dropdown span")).Click();
-            Thread.Sleep(1000);
-            driver.FindElement(By.PartialLinkText("Bairro")).Click();
-            Thread.Sleep(1000);
-            driver.FindElement(By.CssSelector("div.entidade__new-button-area input.entidade__new-button")).Click();
-            IWebElement nomeTextBox = driver.FindElement(By.Id("nome"));
-            nomeTextBox.Clear();
-            nomeTextBox.SendKeys("Teste Bairro Suellen");
+        public Bairro (IWebDriver _driver)
+        {
+            Alias = "Bairro";
+            driver = _driver;
 
-            item = "Rio Grande do Sul";
-            itemId = "select2-chosen-4";
-
-            if (!RetornaSelect(item, itemId, driver))
-            {
-                Console.WriteLine("Erro select estado");
-                return false;
-            }
-
-            item = "Porto Alegre";
-            itemId = "select2-chosen-6";
-
-            if (!RetornaSelect(item, itemId, driver))
-            {
-                Console.WriteLine("Erro select cidade");
-                return false;
-            }
-
-            IWebElement iddneTextBox = driver.FindElement(By.Id("iddne"));
-            iddneTextBox.Clear();
-            iddneTextBox.SendKeys("12");
-            driver.FindElement(By.CssSelector("div.bot-buttons button.ng-scope")).Click();
-            return true;
+            inserir();
+            pesquisar();
+            editar();
         }
 
-        public bool pesquisar(IWebDriver driver) {
+        public void inserir()
+        {
+            try
+            {
+                Mensagem("inserir");
+
+                String item, itemId;
+                driver.FindElement(By.CssSelector("div.dropdown span")).Click();
+                Thread.Sleep(1000);
+                driver.FindElement(By.PartialLinkText("Bairro")).Click();
+                Thread.Sleep(1000);
+                driver.FindElement(By.CssSelector("div.entidade__new-button-area input.entidade__new-button")).Click();
+                IWebElement nomeTextBox = driver.FindElement(By.Id("nome"));
+                nomeTextBox.Clear();
+                nomeTextBox.SendKeys("Teste Bairro Suellen");
+
+                item = "Rio Grande do Sul";
+                itemId = "select2-chosen-4";
+
+                if (!RetornaSelect(item, itemId, driver))
+                {
+                    Console.WriteLine("Erro select estado");
+                    return false;
+                }
+
+                item = "Porto Alegre";
+                itemId = "select2-chosen-6";
+
+                if (!RetornaSelect(item, itemId, driver))
+                {
+                    Console.WriteLine("Erro select cidade");
+                    return false;
+                }
+
+                IWebElement iddneTextBox = driver.FindElement(By.Id("iddne"));
+                iddneTextBox.Clear();
+                iddneTextBox.SendKeys("12");
+                driver.FindElement(By.CssSelector("div.bot-buttons button.ng-scope")).Click();
+
+
+            }
+            catch (System.Exception ex)
+            {
+                Mensagem("FALHA inserir");
+                Mensagem(ex.ToString());
+            }
+        }
+
+        public bool pesquisar()
+        {
             driver.FindElement(By.CssSelector("div.dropdown span")).Click();
             Thread.Sleep(1000);
             driver.FindElement(By.PartialLinkText("Bairro")).Click();
@@ -59,7 +78,8 @@ namespace RobotPipeline.Cadastros
             return true;
         }
 
-        public bool editar(IWebDriver driver) {
+        public bool editar()
+        {
             driver.FindElement(By.CssSelector("tr.ng-scope")).Click();
             Thread.Sleep(1000);
             IWebElement iddneTextBox = driver.FindElement(By.Id("iddne"));
@@ -70,7 +90,6 @@ namespace RobotPipeline.Cadastros
             Thread.Sleep(1000);
             return true;
         }
-
     }
 }
 
