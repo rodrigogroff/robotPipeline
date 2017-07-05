@@ -48,7 +48,6 @@
   <ItemGroup>
     <Compile Include="Cadastros\Bairro.cs" />
     <Compile Include="Infra\Base.cs" />
-    <Compile Include="Login\Login.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

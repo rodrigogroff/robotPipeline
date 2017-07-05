@@ -1,59 +1,44 @@
 ﻿using System;
 using OpenQA.Selenium;
-using System.Threading;
 using RobotPipeline.Infra;
 
 namespace RobotPipeline.Cadastros
 {
     public class Bairro : Base
     {
-        public Bairro (IWebDriver _driver)
+        public string   uf = "Rio Grande do Sul",
+                        ufId = "select2-chosen-4",
+                        cidade = "Porto Alegre",
+                        cidadeId = "select2-chosen-6",
+                        bairroNomeAutomatico,
+                        iddne = "12",
+                        iddne_editado = "13";
+
+        public Bairro ()
         {
             Alias = "Bairro";
-            driver = _driver;
 
-            inserir();
-          
+            // cada vez q rodar, gerar um nome unico
+            bairroNomeAutomatico = "TesteAutomatizado" + DateTime.Now.ToString("ddMMyyyyHHmm");
         }
 
-        public void inserir()
+        public void Inserir(IWebDriver driver)
         {
             try
             {
                 Mensagem("inserir");
+                AcessaMenu("Bairro");
 
-                String item, itemId;
-                driver.FindElement(By.CssSelector("div.dropdown span")).Click();
-                Sleep(1);
-                driver.FindElement(By.PartialLinkText("Bairro")).Click();
-                Sleep(1);
-                driver.FindElement(By.CssSelector("div.entidade__new-button-area input.entidade__new-button")).Click();
-                IWebElement nomeTextBox = driver.FindElement(By.Id("nome"));
-                nomeTextBox.Clear();
-                nomeTextBox.SendKeys("Teste Bairro Suellen");
+                BotaoNovo();
 
-                item = "Rio Grande do Sul";
-                itemId = "select2-chosen-4";
+                Select(uf, ufId, driver);
+                Select(cidade, cidadeId, driver);
+                EnviaTextoPorId("nome", bairroNomeAutomatico);
+                EnviaTextoPorId("iddne", iddne);
 
-                if (!RetornaSelect(item, itemId, driver))
-                {
-                    Console.WriteLine("Erro select estado");
-                }
-
-                item = "Porto Alegre";
-                itemId = "select2-chosen-6";
-
-                if (!RetornaSelect(item, itemId, driver))
-                {
-                    Console.WriteLine("Erro select cidade");
-                }
-
-                IWebElement iddneTextBox = driver.FindElement(By.Id("iddne"));
-                iddneTextBox.Clear();
-                iddneTextBox.SendKeys("12");
-                driver.FindElement(By.CssSelector("div.bot-buttons button.ng-scope")).Click();
-
-
+                Sleep(30);
+                                
+                BotaoClick("div.bot-buttons button.ng-scope");
             }
             catch (System.Exception ex)
             {
@@ -62,30 +47,56 @@ namespace RobotPipeline.Cadastros
             }
         }
 
-        public bool pesquisar()
+        public void Pesquisar(IWebDriver driver)
         {
-            driver.FindElement(By.CssSelector("div.dropdown span")).Click();
-            Sleep(1);
-            driver.FindElement(By.PartialLinkText("Bairro")).Click();
-            Sleep(1);
-            IWebElement pesquisarTextBox = driver.FindElement(By.Id("filtroBasico"));
-            pesquisarTextBox.Clear();
-            pesquisarTextBox.SendKeys("Teste Suellen");
-            driver.FindElement(By.CssSelector("div.filter-box button.botaoPesquisa")).Click();
-            return true;
+            try
+            {
+                Mensagem("pesquisar");
+                AcessaMenu("Bairro");
+
+                EnviaTextoPorId("filtroBasico", bairroNomeAutomatico);
+
+                BotaoClick("div.filter-box button.botaoPesquisa");
+            
+                //verificar se trouxe elementos....
+
+            }
+            catch (System.Exception ex)
+            {
+                Mensagem("FALHA inserir");
+                Mensagem(ex.ToString());                
+            }
         }
 
-        public bool editar()
+        // listagem e depois edição
+        public void Editar(IWebDriver driver)
         {
-            driver.FindElement(By.CssSelector("tr.ng-scope")).Click();
-            Sleep(1);
-            IWebElement iddneTextBox = driver.FindElement(By.Id("iddne"));
-            iddneTextBox.Clear();
-            iddneTextBox.SendKeys("33");
-            Sleep(1);
-            driver.FindElement(By.CssSelector("button.ng-scope")).Click();
-            Sleep(1);
-            return true;
+            try
+            {
+                Mensagem("editar");
+                AcessaMenu("Bairro");
+
+                EnviaTextoPorId("filtroBasico", bairroNomeAutomatico);
+
+                BotaoClick("div.filter-box button.botaoPesquisa");
+
+                // clica na linha
+                driver.FindElement(By.CssSelector("tr.ng-scope")).Click();
+                // espera carga
+                Sleep(5);
+
+                EnviaTextoPorId("iddne", iddne_editado);
+
+                Sleep(1);
+
+                driver.FindElement(By.CssSelector("button.ng-scope")).Click();
+                Sleep(1);
+            }
+            catch (System.Exception ex)
+            {
+                Mensagem("FALHA inserir");
+                Mensagem(ex.ToString());
+            }
         }
     }
 }

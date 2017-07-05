@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using RobotPipeline.Cadastros;
-using RobotPipeline.Login;
+using System.Threading;
 
 namespace RobotPipeline
 {
@@ -10,13 +10,28 @@ namespace RobotPipeline
         static void Main(string[] args)
         {
             IWebDriver driver = new FirefoxDriver();
-            
-            var login = new RobotLogin(driver, "http://10.10.1.22:8091/");
 
-            if (login.EfetuarLogin())
+            driver.Navigate().GoToUrl("http://10.10.1.22:8091/");
+
+            #region - login - 
+
+            Thread.Sleep(1000);
+            IWebElement passwordTextBox = driver.FindElement(By.Name("username"));
+            passwordTextBox.Clear();
+            passwordTextBox.SendKeys("sue.helen");
+
+            driver.FindElement(By.Id("btn-login")).Click();
+
+            #endregion
+            
             {
-                new Bairro(driver);                
-            }
+                var tst = new Bairro();
+
+                tst.Inserir(driver);
+                tst.Pesquisar(driver);
+                tst.Editar(driver);
+            }               
+            
         }
     }
 }
