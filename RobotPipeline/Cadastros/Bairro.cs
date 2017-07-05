@@ -13,8 +13,7 @@ namespace RobotPipeline.Cadastros
             driver = _driver;
 
             inserir();
-            pesquisar();
-            editar();
+          
         }
 
         public void inserir()
@@ -25,9 +24,9 @@ namespace RobotPipeline.Cadastros
 
                 String item, itemId;
                 driver.FindElement(By.CssSelector("div.dropdown span")).Click();
-                Thread.Sleep(1000);
+                Sleep(1);
                 driver.FindElement(By.PartialLinkText("Bairro")).Click();
-                Thread.Sleep(1000);
+                Sleep(1);
                 driver.FindElement(By.CssSelector("div.entidade__new-button-area input.entidade__new-button")).Click();
                 IWebElement nomeTextBox = driver.FindElement(By.Id("nome"));
                 nomeTextBox.Clear();
@@ -66,8 +65,9 @@ namespace RobotPipeline.Cadastros
         public bool pesquisar()
         {
             driver.FindElement(By.CssSelector("div.dropdown span")).Click();
+            Sleep(1);
             driver.FindElement(By.PartialLinkText("Bairro")).Click();
-            Thread.Sleep(1000);
+            Sleep(1);
             IWebElement pesquisarTextBox = driver.FindElement(By.Id("filtroBasico"));
             pesquisarTextBox.Clear();
             pesquisarTextBox.SendKeys("Teste Suellen");
@@ -78,13 +78,13 @@ namespace RobotPipeline.Cadastros
         public bool editar()
         {
             driver.FindElement(By.CssSelector("tr.ng-scope")).Click();
-            Thread.Sleep(1000);
+            Sleep(1);
             IWebElement iddneTextBox = driver.FindElement(By.Id("iddne"));
             iddneTextBox.Clear();
             iddneTextBox.SendKeys("33");
-            Thread.Sleep(1000);
+            Sleep(1);
             driver.FindElement(By.CssSelector("button.ng-scope")).Click();
-            Thread.Sleep(1000);
+            Sleep(1);
             return true;
         }
     }
