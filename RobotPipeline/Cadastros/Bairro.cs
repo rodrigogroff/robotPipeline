@@ -8,9 +8,12 @@ namespace RobotPipeline.Cadastros
     {
         public string   uf = "Rio Grande do Sul",
                         ufId = "select2-chosen-4",
+
                         cidade = "Porto Alegre",
                         cidadeId = "select2-chosen-6",
+
                         bairroNomeAutomatico,
+
                         iddne = "12",
                         iddne_editado = "13";
 
@@ -22,23 +25,22 @@ namespace RobotPipeline.Cadastros
             bairroNomeAutomatico = "TesteAutomatizado" + DateTime.Now.ToString("ddMMyyyyHHmm");
         }
 
-        public void Inserir(IWebDriver driver)
+        public void Inserir(ref IWebDriver driver)
         {
             try
             {
                 Mensagem("inserir");
-                AcessaMenu("Bairro");
 
-                BotaoNovo();
+                BotaoNovo(driver);
 
-                Select(uf, ufId, driver);
-                Select(cidade, cidadeId, driver);
-                EnviaTextoPorId("nome", bairroNomeAutomatico);
-                EnviaTextoPorId("iddne", iddne);
-
-                Sleep(30);
+                Select(driver, uf, ufId);
+                Select(driver, cidade, cidadeId);
+                EnviaTextoPorId(driver, "nome", bairroNomeAutomatico);
+                EnviaTextoPorId(driver, "iddne", iddne);
                                 
-                BotaoClick("div.bot-buttons button.ng-scope");
+                BotaoClickByCss(driver, "div.bot-buttons button.ng-scope");
+
+                Mensagem("inserir OK!");
             }
             catch (System.Exception ex)
             {
@@ -52,14 +54,14 @@ namespace RobotPipeline.Cadastros
             try
             {
                 Mensagem("pesquisar");
-                AcessaMenu("Bairro");
 
-                EnviaTextoPorId("filtroBasico", bairroNomeAutomatico);
+                EnviaTextoPorId(driver, "filtroBasico", bairroNomeAutomatico);
 
-                BotaoClick("div.filter-box button.botaoPesquisa");
-            
+                BotaoClickByCss(driver, "div.filter-box button.botaoPesquisa");
+
                 //verificar se trouxe elementos....
 
+                Mensagem("pesquisar OK");
             }
             catch (System.Exception ex)
             {
@@ -74,23 +76,22 @@ namespace RobotPipeline.Cadastros
             try
             {
                 Mensagem("editar");
-                AcessaMenu("Bairro");
 
-                EnviaTextoPorId("filtroBasico", bairroNomeAutomatico);
+                EnviaTextoPorId(driver,"filtroBasico", bairroNomeAutomatico);
 
-                BotaoClick("div.filter-box button.botaoPesquisa");
+                BotaoClickByCss(driver,"div.filter-box button.botaoPesquisa");
 
                 // clica na linha
                 driver.FindElement(By.CssSelector("tr.ng-scope")).Click();
+
                 // espera carga
                 Sleep(5);
 
-                EnviaTextoPorId("iddne", iddne_editado);
+                EnviaTextoPorId(driver,"iddne", iddne_editado);
 
-                Sleep(1);
+                BotaoClickByCss(driver, "button.ng-scope");
 
-                driver.FindElement(By.CssSelector("button.ng-scope")).Click();
-                Sleep(1);
+                Mensagem("editar OK");
             }
             catch (System.Exception ex)
             {

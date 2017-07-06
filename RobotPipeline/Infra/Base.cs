@@ -6,7 +6,6 @@ namespace RobotPipeline.Infra
 {
     public class Base
     {
-        public IWebDriver driver;
         public string Alias = "";
 
         public void Sleep(int segundos)
@@ -19,7 +18,7 @@ namespace RobotPipeline.Infra
             Console.WriteLine(Alias + " " + DateTime.Now.ToString() + " -> " + msg);
         }
 
-        public void AcessaMenu(string nome)
+        public void AcessaMenu(ref IWebDriver driver, string nome)
         {
             driver.FindElement(By.CssSelector("div.dropdown span")).Click();
             Sleep(1);
@@ -27,19 +26,17 @@ namespace RobotPipeline.Infra
             Sleep(1);
         }
 
-        public void BotaoNovo()
+        public void BotaoNovo(IWebDriver driver)
         {
             driver.FindElement(By.CssSelector("div.entidade__new-button-area input.entidade__new-button")).Click();
         }
 
-        public void BotaoClick(string botao)
+        public void BotaoClickByCss(IWebDriver driver, string botao)
         {
-            driver.FindElement(By.CssSelector(botao)).Click();
-
-           
+            driver.FindElement(By.CssSelector(botao)).Click();           
         }
 
-        public bool Select(string itemSelecionado, string itemId, IWebDriver driver)
+        public bool Select(IWebDriver driver, string itemSelecionado, string itemId)
         {
             IWebElement selectUF = driver.FindElement(By.Id(itemId));
             selectUF.Click();
@@ -52,7 +49,7 @@ namespace RobotPipeline.Infra
             return true;
         }
 
-        public void EnviaTextoPorId(string id, string valor)
+        public void EnviaTextoPorId(IWebDriver driver, string id, string valor)
         {
             IWebElement txt = driver.FindElement(By.Id(id));
             txt.Clear();
