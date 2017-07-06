@@ -93,6 +93,18 @@ namespace RobotPipeline.Cadastros
 
                 IWebElement labelPesquisa = driver.FindElement(By.CssSelector("div.col-sm-10 input#nome"));
 
+
+                var lst = driver.FindElements(By.CssSelector("input"));
+
+                foreach (var item in lst)
+                {
+                    string t = item.GetAttribute("text");
+                    string v = item.GetAttribute("value");
+
+                    int u = 0;
+                }
+
+
                 // atualiza
 
                 EnviaTextoPorId(driver,"iddne", iddne_editado);
