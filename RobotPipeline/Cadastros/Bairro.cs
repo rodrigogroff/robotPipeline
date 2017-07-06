@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using OpenQA.Selenium;
 using RobotPipeline.Infra;
 
@@ -22,7 +23,7 @@ namespace RobotPipeline.Cadastros
             Alias = "Bairro";
 
             // cada vez q rodar, gerar um nome unico
-            bairroNomeAutomatico = "TesteAutomatizado " + DateTime.Now.ToString("ddMMyyyyHHmmss");
+            bairroNomeAutomatico = "TESTEAUTOMATIZADO " + DateTime.Now.ToString("ddMMyyyyHHmmss");
         }
 
         public void Inserir(ref IWebDriver driver)
@@ -59,18 +60,18 @@ namespace RobotPipeline.Cadastros
 
                 BotaoClickByCss(driver, "div.filter-box button.botaoPesquisa");
 
-                Sleep(3);
+                Sleep(2);
 
-                IWebElement labelPesquisa = driver.FindElement(By.CssSelector(".ng-scope td.ng-binding"));
+                var labelPesquisa = driver.FindElements(By.CssSelector(".ng-scope td.ng-binding")).FirstOrDefault();
 
                 if (labelPesquisa.Text != bairroNomeAutomatico)
-                    Mensagem("FALHA inserir - nome difere!");
+                    Mensagem("FALHA - nome difere!");
 
                 Mensagem("pesquisar OK");
             }
             catch (System.Exception ex)
             {
-                Mensagem("FALHA inserir");
+                Mensagem("FALHA pesquisar");
                 Mensagem(ex.ToString());                
             }
         }
@@ -90,7 +91,7 @@ namespace RobotPipeline.Cadastros
 
                 // verificar se tudo q foi inserido foi salvo no banco
 
-                IWebElement labelPesquisa = driver.FindElement(By.Id("nome"));
+                IWebElement labelPesquisa = driver.FindElement(By.CssSelector("div.col-sm-10 input#nome"));
 
                 // atualiza
 

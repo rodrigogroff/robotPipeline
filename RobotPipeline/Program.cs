@@ -45,9 +45,6 @@ namespace RobotPipeline
 
             tst.Inserir(ref driver);
             tst.Pesquisar(driver);
-
-            AcessaMenu(driver, "Bairro");
-
             tst.Editar(driver);
         }
     }
