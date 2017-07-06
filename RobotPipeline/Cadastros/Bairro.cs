@@ -22,7 +22,7 @@ namespace RobotPipeline.Cadastros
             Alias = "Bairro";
 
             // cada vez q rodar, gerar um nome unico
-            bairroNomeAutomatico = "TesteAutomatizado" + DateTime.Now.ToString("ddMMyyyyHHmm");
+            bairroNomeAutomatico = "TesteAutomatizado " + DateTime.Now.ToString("ddMMyyyyHHmmss");
         }
 
         public void Inserir(ref IWebDriver driver)
@@ -59,7 +59,12 @@ namespace RobotPipeline.Cadastros
 
                 BotaoClickByCss(driver, "div.filter-box button.botaoPesquisa");
 
-                //verificar se trouxe elementos....
+                Sleep(3);
+
+                IWebElement labelPesquisa = driver.FindElement(By.CssSelector(".ng-scope td.ng-binding"));
+
+                if (labelPesquisa.Text != bairroNomeAutomatico)
+                    Mensagem("FALHA inserir - nome difere!");
 
                 Mensagem("pesquisar OK");
             }
@@ -69,8 +74,7 @@ namespace RobotPipeline.Cadastros
                 Mensagem(ex.ToString());                
             }
         }
-
-        // listagem e depois edição
+                
         public void Editar(IWebDriver driver)
         {
             try
@@ -80,15 +84,17 @@ namespace RobotPipeline.Cadastros
                 EnviaTextoPorId(driver,"filtroBasico", bairroNomeAutomatico);
 
                 BotaoClickByCss(driver,"div.filter-box button.botaoPesquisa");
+                BotaoClickByCss(driver, "tr.ng-scope");
 
-                // clica na linha
-                driver.FindElement(By.CssSelector("tr.ng-scope")).Click();
+                Sleep(2);
 
-                // espera carga
-                Sleep(5);
+                // verificar se tudo q foi inserido foi salvo no banco
+
+                IWebElement labelPesquisa = driver.FindElement(By.Id("nome"));
+
+                // atualiza
 
                 EnviaTextoPorId(driver,"iddne", iddne_editado);
-
                 BotaoClickByCss(driver, "button.ng-scope");
 
                 Mensagem("editar OK");

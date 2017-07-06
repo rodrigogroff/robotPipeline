@@ -9,9 +9,11 @@ namespace RobotPipeline
     {
         static void AcessaMenu(IWebDriver driver, string menu)
         {
-            driver.FindElement(By.CssSelector("div.dropdown span")).Click();
+            Thread.Sleep(500);
+            //depois
+            driver.FindElement(By.CssSelector("#dropCadastros span")).Click();
             Thread.Sleep(2000);
-            driver.FindElement(By.PartialLinkText("Bairro")).Click();
+            driver.FindElement(By.PartialLinkText(menu)).Click();
             Thread.Sleep(1000);
         }
 
@@ -42,9 +44,6 @@ namespace RobotPipeline
             AcessaMenu(driver, "Bairro");
 
             tst.Inserir(ref driver);
-
-            AcessaMenu(driver, "Bairro");
-
             tst.Pesquisar(driver);
 
             AcessaMenu(driver, "Bairro");
